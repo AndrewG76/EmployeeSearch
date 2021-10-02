@@ -37,6 +37,16 @@ static int compareEmployeeName(const void *targetPtr, PtrToConstEmployee tableVa
     //the if statement in the for loop above run a string compare with the char that gets dereferenced 
 }
 
+static int compareEmployeePhone(const void *targetPtr, PtrToConstEmployee tableValuePtr){
+    return strcmp((char *) targetPtr, tableValuePtr->name); //const void *targetPtr ==> typecast the void pointer back to character pointer
+    //the if statement in the for loop above run a string compare with the char that gets dereferenced 
+}
+
+static int compareEmployeeSalary(const void *targetPtr, PtrToConstEmployee tableValuePtr){
+    return * (double *) targetPtr != tableValuePtr->number; //const void *targetPtr points to the data type
+    //1045 is supposed to be a long pointer which is why we type cast the void pointer back to a long pointer, dereference it, and then check if it's equal to the number
+}
+
 //These are called wrappers. These functions are what you will use in main! | here, these methods will be able to be used in main
 PtrToEmployee searchEmployeeByNumber(PtrToConstEmployee ptr, int size, long number){
     return searchEmployeeTable(ptr, size, &number, compareEmployeeNumber); //we pass pointer and size directly but the address of number instead since we have a void pointer to it and then it passes compareEmployeeNumber
@@ -45,4 +55,13 @@ PtrToEmployee searchEmployeeByNumber(PtrToConstEmployee ptr, int size, long numb
 
 PtrToEmployee searchEmployeeByName(PtrToConstEmployee ptr, int size, char* name){ //name is already an address so you can use the input directly within the statement inside
     return searchEmployeeTable(ptr, size, name, compareEmployeeName);
+}
+
+PtrToEmployee searchEmployeeByName(PtrToConstEmployee ptr, int size, char* phone){ //name is already an address so you can use the input directly within the statement inside
+    return searchEmployeeTable(ptr, size, phone, compareEmployeePhone);
+}
+
+PtrToEmployee searchEmployeeByNumber(PtrToConstEmployee ptr, int size, double salary){
+    return searchEmployeeTable(ptr, size, &salary, compareEmployeeSalary); //we pass pointer and size directly but the address of number instead since we have a void pointer to it and then it passes compareEmployeeNumber
+    //the method at the top gets called and that's what makes this a wrapper
 }
